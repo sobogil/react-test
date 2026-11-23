@@ -1,0 +1,13 @@
+{
+  "name": "playground",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@mini-react/core": "*",
+    "@mini-react/dom": "*"
+  }
+}

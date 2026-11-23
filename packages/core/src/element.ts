@@ -14,14 +14,23 @@ export const ELEMENT_TYPE: unique symbol = Symbol.for('mini-react.element');
 /** 문자열/숫자 자식을 감싸는 특수 타입. renderer가 모든 자식을 같은 모양으로 다룰 수 있게 한다. */
 export const TEXT_ELEMENT = 'TEXT_ELEMENT';
 
-/** <>...</> 를 위한 타입. */
-export const Fragment: unique symbol = Symbol.for('mini-react.fragment');
-
 export type Key = string | number;
 
 export type FunctionComponent<P = any> = (props: P) => Child;
 
-export type ElementType = string | FunctionComponent | typeof Fragment;
+/**
+ * <>...</> 를 위한 컴포넌트. 자식을 그대로 돌려줄 뿐인 진짜 함수다.
+ *
+ * 처음엔 Symbol로 만들었지만, TypeScript는 JSX 태그 자리에 "호출 가능한 것"만 허용해서
+ * <> 를 타입 검사할 수 없었다. 그래서 Preact처럼 실제 함수로 바꿨다.
+ * renderer는 type === Fragment 를 먼저 검사해 래퍼 없이 자식만 그린다.
+ * (docs/adr/0002-fragment-as-function.md 참고)
+ */
+export function Fragment(props: { children?: Child }): Child {
+  return props.children;
+}
+
+export type ElementType = string | FunctionComponent;
 
 export interface Props {
   children: MiniElement[];

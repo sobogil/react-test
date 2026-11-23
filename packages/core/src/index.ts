@@ -1,3 +1,5 @@
+import './jsx';
+
 export {
   createElement,
   createTextElement,
